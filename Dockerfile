@@ -1,6 +1,8 @@
 FROM debian:10
 LABEL maintainer="DasChaos <Twitter: @DasChaosAT>"
 
+ENV PORT 7788
+
 RUN apt-get update && \
     apt-get install -y wget libc-bin
 
@@ -32,8 +34,8 @@ RUN mkdir /altv-persistend && \
     ln -s /altv-persistend/resources-data /altv/resources-data && \
     ln -s /altv-persistend/logs /altv/logs
 
-EXPOSE 7788/tcp
-EXPOSE 7788/udp
+EXPOSE ${PORT}/tcp
+EXPOSE ${PORT}/udp
 
 VOLUME /altv-persistend/
 
