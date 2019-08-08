@@ -2,6 +2,7 @@ FROM debian:10
 LABEL maintainer="DasChaos <Twitter: @DasChaosAT>"
 
 ENV PORT 7788
+ENV UID 0
 
 RUN apt-get update && \
     apt-get install -y wget libc-bin
@@ -14,7 +15,7 @@ RUN wget --no-cache -O altv-server https://cdn.altv.mp/server/beta/x64_linux/alt
     mkdir /altv && \
     mkdir /altv/data && \
     mkdir /altv/modules && \
-    mkdir /altv/resources-data && 
+    mkdir /altv/resources-data && \
     mv altv-server /altv/ && \
     mv libnode.so.64 /altv/ && \
     mv vehmodels.bin /altv/data && \
@@ -27,7 +28,7 @@ RUN apt-get purge -y wget && \
 RUN mkdir /altv-persistend && \
     mkdir /altv-persistend/config && \
     mkdir /altv-persistend/resources && \
-    mkdir /altv-persistend/resources-data && 
+    mkdir /altv-persistend/resources-data && \ 
     mkdir /altv-persistend/logs && \
     ln -s /altv-persistend/config /altv/config && \
     ln -s /altv-persistend/resources /altv/resources && \
@@ -43,8 +44,7 @@ ADD start_server.sh /altv/start_server.sh
 RUN chmod +x /altv/start_server.sh
 RUN chmod +x /altv/altv-server
 
-USER 0
+USER ${UID}
 
 ENTRYPOINT ["/altv/start_server.sh"]
 CMD ["bash"]
-
